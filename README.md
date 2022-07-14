@@ -52,6 +52,7 @@ Run:
 ```
 bal run version1.bal
 ```
+
 ## Version 2
 
 Changes compared to version 1:
@@ -60,10 +61,35 @@ Changes compared to version 1:
 * Simplified main loop.
 * Count the number of alive neighbours in one step.
 
+Run:
+```
+bal run version2.bal
+```
+
+## Version 3
+
+Changes compared to version 2:
+
+* Instead of hard coding neighbour cell coordinates are (mostly) calculated.
+* Global `grid` variable removed. After that there is no more global state thus all functions except `main()` (because `io:readln()` is not isolated) could be [`isolated`](https://ballerina.io/learn/distinctive-language-features/concurrency/#isolated-functions).
+* Implementation of function `numberOfLiveCells()` couldn't use `reduce()` because there is a pending [specification issue](https://github.com/ballerina-platform/ballerina-spec/issues/602) with anonymous functions and isolation.
+* Added function comments. Ballerina has a built-in [documentation framework](https://ballerina.io/learn/generate-code-documentation/). It doesn't work with a single file programs but the Ballerina Flavored Markup could still be used.
+
+Run:
+```
+bal run version3.bal
+```
+
 ## TODO
 
-* Calculate neighbour cell coordinates instead of hard coding.
-* remove global state
-* use set of alive cells instead of two dimensional array
+Enhancements:
+
+* Implement `numberOfLiveCells()` as a anonymous function in `main()`. This will work around the [specification issue](https://github.com/ballerina-platform/ballerina-spec/issues/602) with anonymous functions and isolation.
+* use a set of alive cells instead of two dimensional array
+* generate the neighbour cell coordinates with permutations ([Heap's algoritm](https://en.wikipedia.org/wiki/Heap%27s_algorithm))
+
+Feature creep:
+
 * read seed from a file
 * random seed
+* print generations to files
