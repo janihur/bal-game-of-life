@@ -80,13 +80,20 @@ Run:
 bal run version3.bal
 ```
 
+## Version 4
+
+Changes compared to version 3:
+
+* Using a [set](https://en.wikipedia.org/wiki/Set_%28abstract_data_type%29) of alive cells instead of two dimensional array of all cells. However Ballerina doesn't have set data structure and [map](https://en.wikipedia.org/wiki/Associative_array) only supports string keys. Hence the set (`aliveCells` variable) has been implemented with Ballerina's very powerful [table](https://ballerina.io/learn/distinctive-language-features/data/#table-concept) data structure.
+* Implemented `numberOfLiveCells()` as `reduce()` in `main()`. Now the function name no more documents the purpose of the function but the name of the result variable `numberOfLiveNeighbours` does. As a bonus this also works around the [specification issue](https://github.com/ballerina-platform/ballerina-spec/issues/602) with anonymous functions and isolation.
+* Generates the neighbour cell coordinates with a [query expression](https://ballerina.io/learn/distinctive-language-features/data/#query-expressions) that is Ballerina's realization of a [list comprehension](https://en.wikipedia.org/wiki/List_comprehension).
+
+Run:
+```
+bal run version4.bal
+```
+
 ## TODO
-
-Enhancements:
-
-* Implement `numberOfLiveCells()` as a anonymous function in `main()`. This will work around the [specification issue](https://github.com/ballerina-platform/ballerina-spec/issues/602) with anonymous functions and isolation.
-* use a set of alive cells instead of two dimensional array
-* generate the neighbour cell coordinates with permutations ([Heap's algoritm](https://en.wikipedia.org/wiki/Heap%27s_algorithm))
 
 Feature creep:
 
