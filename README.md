@@ -8,6 +8,9 @@ All versions apply the following [rules](https://en.wikipedia.org/wiki/Conway%27
 1. Any dead cell with three live neighbours becomes a live cell.
 1. All other live cells die in the next generation. Similarly, all other dead cells stay dead.
 
+
+Versions A (`version-a?.bal`) are bare implementations and versions B (`version-b?.bal`) have features creeped in.
+
 These are my first implementations of this game ever.
 
 Used Ballerina version:
@@ -18,7 +21,7 @@ Language specification 2022R2
 Update Tool 1.3.9
 ```
 
-## Version 1
+## Version A1
 
 1. The seed is hardcoded (initialization of the module global `grid` variable).
 1. Uses two fixed size grids (two dimensional boolean arrays).
@@ -50,12 +53,12 @@ All neighbour cell coordinates are hardcoded with the following algorithm:
 
 Run:
 ```
-bal run version1.bal
+bal run version-a1.bal
 ```
 
-## Version 2
+## Version A2
 
-Changes compared to version 1:
+Changes compared to version A1:
 
 * Removed `emptyGrid` initialization variable as `[[DEAD]]` is effectively the same. One could also use `[[]]` because the implicit default value for `boolean` is `false` but I prefer `[[DEAD]]` because it is more explict.
 * Simplified main loop.
@@ -63,12 +66,12 @@ Changes compared to version 1:
 
 Run:
 ```
-bal run version2.bal
+bal run version-a2.bal
 ```
 
-## Version 3
+## Version A3
 
-Changes compared to version 2:
+Changes compared to version A2:
 
 * Instead of hard coding neighbour cell coordinates are (mostly) calculated.
 * Global `grid` variable removed. After that there is no more global state thus all functions except `main()` (because `io:readln()` is not isolated) could be [`isolated`](https://ballerina.io/learn/distinctive-language-features/concurrency/#isolated-functions).
@@ -77,12 +80,12 @@ Changes compared to version 2:
 
 Run:
 ```
-bal run version3.bal
+bal run version-a3.bal
 ```
 
-## Version 4
+## Version A4
 
-Changes compared to version 3:
+Changes compared to version A3:
 
 * Using a [set](https://en.wikipedia.org/wiki/Set_%28abstract_data_type%29) of alive cells instead of two dimensional array of all cells. However Ballerina doesn't have set data structure and [map](https://en.wikipedia.org/wiki/Associative_array) only supports string keys. Hence the set (`aliveCells` variable) has been implemented with Ballerina's very powerful [table](https://ballerina.io/learn/distinctive-language-features/data/#table-concept) data structure.
 * Implemented `numberOfLiveCells()` as `reduce()` in `main()`. Now the function name no more documents the purpose of the function but the name of the result variable `numberOfLiveNeighbours` does. As a bonus this also works around the [specification issue](https://github.com/ballerina-platform/ballerina-spec/issues/602) with anonymous functions and isolation.
@@ -90,7 +93,7 @@ Changes compared to version 3:
 
 Run:
 ```
-bal run version4.bal
+bal run version-a4.bal
 ```
 
 ## TODO
