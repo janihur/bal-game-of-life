@@ -8,6 +8,19 @@ All versions apply the following [rules](https://en.wikipedia.org/wiki/Conway%27
 1. Any dead cell with three live neighbours becomes a live cell.
 1. All other live cells die in the next generation. Similarly, all other dead cells stay dead.
 
+The coordinate system is programmer-friendly with origo (`{x:0, y:0}`) in top-left corner and increasing into right and down:
+```
+―――――――――――――――――――――――
+| 0,0 | 0,1 | 0,2 | ...
+―――――――――――――――――――
+| 1,0 | 1,1 | ...
+―――――――――――――
+| 2,0 | ...
+―――――――
+| ...
+```
+
+Error handling is kept simple with [panics](https://ballerina.io/learn/language-basics/#panics) in all error scenarios (`checkpanic` keyword).
 
 Versions A (`version-a?.bal`) are bare implementations and versions B (`version-b?.bal`) have features creeped in.
 
@@ -96,10 +109,36 @@ Run:
 bal run version-a4.bal
 ```
 
+## Version B1
+
+Changes compared to version A4:
+
+* Default grid size increased to 9x9 and default seed changed.
+* Added an option to start with a random seed. Every first generation cell has 30% chance to be alive.
+* Added an option to load the first generation from a file. Note that the grid size have to be 9x9. You can load files created with `--saveprefix` option.
+* Added an option to save generations to files.
+* Added `player.sh` to show the generation files.
+
+Run:
+```
+# start with hard-coded seed
+bal run version-b1.bal
+# start with a random seed
+bal run version-b1.bal -- --random
+# save all generations also to files with a prefix
+bal run version-b1.bal -- --random --saveprefix=$(date +%Y%m%d-%H%M%S)-
+# load the first generation from a file
+bal run version-b1.bal -- --load=<FILENAME>
+```
+Show saved generation files:
+```
+./player.sh <FILES>
+```
+
 ## TODO
 
 Feature creep:
 
-* read seed from a file
-* random seed
-* print generations to files
+* variable grid size
+* stop automatically when all cells are dead or are stable (i.e. compare last two generations)
+* identify longer cycles too
