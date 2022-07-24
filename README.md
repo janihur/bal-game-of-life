@@ -24,6 +24,8 @@ Error handling is kept simple with [panics](https://ballerina.io/learn/language-
 
 Versions A (`version-a?.bal`) are bare implementations and versions B (`version-b?.bal`) have features creeped in.
 
+Note that there is no checks that the combination of the command line arguments or the values of the arguments are sensible.
+
 These are my first implementations of this game ever.
 
 Used Ballerina version:
@@ -113,7 +115,7 @@ bal run version-a4.bal
 
 Changes compared to version A4:
 
-* Default grid size increased to 9x9 and default seed changed.
+* Grid size increased to 9x9 and default seed changed.
 * Added an option to start with a random seed. Every first generation cell has 30% chance to be alive.
 * Added an option to load the first generation from a file. Note that the grid size have to be 9x9. You can load files created with `--saveprefix` option.
 * Added an option to save generations to files.
@@ -126,7 +128,7 @@ bal run version-b1.bal
 # start with a random seed
 bal run version-b1.bal -- --random
 # save all generations also to files with a prefix
-bal run version-b1.bal -- --random --saveprefix=$(date +%Y%m%d-%H%M%S)-
+bal run version-b1.bal -- --random --saveprefix=$(date +%Y%m%d-%H%M%S)-9x9-
 # load the first generation from a file
 bal run version-b1.bal -- --load=<FILENAME>
 ```
@@ -135,10 +137,27 @@ Show saved generation files:
 ./player.sh <FILES>
 ```
 
-## TODO
+## Version B2
 
-Feature creep:
+For now this is the final version.
 
-* variable grid size
-* stop automatically when all cells are dead or are stable (i.e. compare last two generations)
-* identify longer cycles too
+Changes compared to version B1:
+
+* Example generations added to `gen/` directory. See them with `player.sh`.
+* Stops automatically when
+  * all cells are dead
+  * two consecutive generations are identical (the cells have stabilized)
+  * the generation has already appeared earlier in the history (the generation cycle)
+* Variable grid size:
+  * if `--load` option is used the grid size is read from the file
+  * `--size` option sets the grid size
+  * defaults to 9x9
+* Reports the number of alive cells.
+
+Run:
+```
+# start with a custom grid size
+bal run version-b2.bal -- -- size 12
+```
+
+See _Version B1_ for other run options.
